@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<!--Página inicial com descrição de serviços/produtos oferecidos e área para login (qualquer tipo de usuário)--> 
+
+<html>
+	<head>
+	    <title>Pet Shop</title>
+		<link rel="stylesheet" href="index.css" type="text/css">
+		<meta name="description" content="A página inicial de um pet shop chamado Pet Shop"/>
+		<meta charset="utf-8"/><!--utilizado para os caraceters acentuados-->
+	</head>
+	<body>
+		<script src="index.js" type="text/javascript"></script>
+		<div id="page">
+			<div id="logo">
+				<img src="rsz_logo.jpg" alt="Logo do pet shop Pet Shop" style="width:160px">
+			</div>
+			<div id="container">
+				<div id="descricao">
+				<!--texto baseado do texto de AZ PetShop, utilizado apenas para exemplo-->
+					<p>Bem-vindos ao pet shop Pet Shop.</p>
+					<p>A pet shop Pet Shop é uma loja especializada em comercializar artigos para pequenos animais. Estamos localizados na cidade de São Paulo, e enviamos produtos para todas as regiões do Brasil. A Pet Shop é o local ideal para todos os amantes de pets que desejam adquirir produtos com a facilidade da internet e a comodidade de realizar seus pedidos online.</p>
+					<p>Contamos com uma variada linha de acessórios para cães, gatos, pássaros, peixes, roedores, répteis e outros. Trabalhamos com alguns dos melhores fornecedores do mercado, garantindo assim a entrega de produtos com qualidade.</p>
+					<p>Ainda contamos com diversos serviços, como banho, tosa e consultas. Agende pelo site e consulte serviços já agendadas.</p>
+					<p>Caso tenha dúvidas, não deixe de entrar em contato com a nossa Central de Atendimento, que está sempre disposta a lhe ajudar no que for preciso.</p>
+				</div>
+				<div id="login_cadastro">
+					<p>Já tem cadastro?</p>					
+					<form onsubmit="event.preventDefault();">
+						Login ou email:<br>
+						<input type="text" id="cadastrado_email"><br><br>
+						Senha:<br>
+						<input type="password" id="cadastrado_senha"><br><br>
+						<button onclick="login()">Login</button>
+						<!--o usuário seria direcionado à página do usuário ou administrador-->
+					</form>					
+					<p>Ainda não tem cadastro?</p>					
+					<form id="form_cadastra" onsubmit="event.preventDefault();">
+						Nome:<br>
+						<input type="text" id="nome"><br><br>
+						Email:<br>
+						<input type="email" id="email"><br><br>
+						Senha:<br>
+						<input type="password" id="senha"><br><br>
+						Confirme a senha:<br>
+						<input type="password" id="senha_confirme"><br><br>
+						Telefone:<br>
+						<input type="tel" id="telefone"><br><br>
+						Endereço:<br>
+						<input type="text" id="endereco"><br><br>
+						Cidade:<br>
+						<input type="text" id="cidade"><br><br>
+						Estado:<br>
+						<select id="estado">
+							<option value="">Selecione</option>
+							<option value="AC">Acre</option>
+							<option value="AL">Alagoas</option>
+							<option value="AP">Amapá</option>
+							<option value="AM">Amazonas</option>
+							<option value="BA">Bahia</option>
+							<option value="CE">Ceará</option>
+							<option value="DF">Distrito Federal</option>
+							<option value="ES">Espirito Santo</option>
+							<option value="GO">Goiás</option>
+							<option value="MA">Maranhão</option>
+							<option value="MS">Mato Grosso do Sul</option>
+							<option value="MT">Mato Grosso</option>
+							<option value="MG">Minas Gerais</option>
+							<option value="PA">Pará</option>
+							<option value="PB">Paraíba</option>
+							<option value="PR">Paraná</option>
+							<option value="PE">Pernambuco</option>
+							<option value="PI">Piauí</option>
+							<option value="RJ">Rio de Janeiro</option>
+							<option value="RN">Rio Grande do Norte</option>
+							<option value="RS">Rio Grande do Sul</option>
+							<option value="RO">Rondônia</option>
+							<option value="RR">Roraima</option>
+							<option value="SC">Santa Catarina</option>
+							<option value="SP">São Paulo</option>
+							<option value="SE">Sergipe</option>
+							<option value="TO">Tocantins</option>
+						</select><br><br>
+						<button onclick="cadastrar()">Cadastrar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<div id="rodape">
+			<p>Contato</p>
+		</div>
+	</footer>
+</html>

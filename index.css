@@ -1,0 +1,47 @@
+#logo {
+	background-color: white;
+	margin: 20px 20px 20px 20px;
+}
+
+#container {	
+    width:100%;
+    height: 70%;
+    display:inline-block;
+}
+
+#descricao {	
+    background-color: rgba(255, 255, 255, 0.8);
+	font-size: 110%;
+	padding: 10px 10px 10px 10px;
+	margin: 20px 20px 20px 20px;
+	float: left;
+	width: 60%;
+	height: auto;
+	text-align: justify;
+}
+
+#login_cadastro {
+	background-color: rgba(255, 255, 255, 0.8);
+	float: right;
+	padding: 10px 10px 10px 10px;
+	margin: 20px 20px 20px 20px;
+	width: auto;
+	height: auto;
+	text-align: justify;
+}
+
+body {
+	background-image: url("rsz_background.jpg");
+    background-repeat: repeat;
+    background-color: black;
+	font-family: arial;
+}
+
+#rodape {
+	margin: 20px 20px 20px 20px;
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+input,  select, button {
+	width: 100%;
+}
