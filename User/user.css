@@ -1,0 +1,238 @@
+body {
+	background-image: url("rsz_background.jpg");
+    background-repeat: repeat;
+    background-color: white;
+	font-family: arial;
+}
+
+#calendar {
+        width: 1000px;
+        margin: 0 auto;
+    }
+
+#usuario_logado {
+    float: right;
+    padding-top: 45px;
+    padding-right: 45px;
+}
+
+#logo {
+	background-color: white;
+	margin: 20px 20px 20px 20px;
+}
+
+#rodape {
+	margin: 20px 20px 20px 20px;
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+/*agendar, editar, comprar e cadastrar são as abas da página*/
+#agendar {
+    text-align: center;
+}
+
+#editar {
+    text-align: center;
+}
+
+#comprar {
+    text-align: center;
+}
+
+#cadastrar {
+    text-align: center;
+}
+
+#carrinho {
+    text-align: center;
+}
+
+/*mantém os produtos, animais e formulários com a mesma aparência*/
+.produto {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.animal {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.formulario {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.produto-carrinho {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.quantidade {
+	vertical-align: top;
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+/*total do carrinho*/
+#total {
+	vertical-align: top;
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+	padding: 10px 10px 10px 10px;
+}
+
+#buttonLogout {
+    float: right;
+    margin-top: 70px;
+    margin-right: -100px
+}
+
+/*todos os blocos que alteram o comportamento de nav foram baseados no presente em https://www.w3schools.com/css/css_navbar.asp*/
+nav {
+    background-color: rgba(255, 255, 255, 1);
+    display: block;
+    margin: 20px 20px 20px 20px;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+ 
+nav ul li {
+    display: inline-block;
+    list-style-type: none;
+}
+     
+nav > ul > li > a {
+    color: black;
+    display: block;
+    line-height: 56px;
+    padding: 0 24px;
+    text-decoration: none;
+}
+
+nav > ul > li:hover {
+	background-color: black;
+}
+ 
+nav > ul > li:hover > a {
+  color: white;
+}
+
+/* header mes */
+.mes {
+    padding: 70px 25px;
+    background: #8ca9b3;
+}
+
+/* lista meses */
+.mes ul {
+    margin: 0;
+    padding: 0;
+}
+
+.mes ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+/* botão mes anterior */
+.mes .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+/* botão mes posterior */
+.mes .next {
+    float: right;
+    padding-top: 10px;
+}
+
+/* dias da semana */
+.diassemana {
+    margin: 0;
+    padding: 10px 0;
+    background-color:#ddd;
+}
+
+.diassemana li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+
+/* dias */
+.dias {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+}
+
+.dias li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size:12px;
+    color:#777;
+    position: relative;
+    display: inline-block;
+}
+
+.tooltiptext{
+    visibility: hidden;
+    width: 120px;
+    background-color: #46555a;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.dias:hover .tooltiptext{
+    visibility: visible;
+    opacity: 1;
+}
+/* highlight no atual */
+.dias li .active {
+    padding: 5px;
+    background: #8ca9b3;
+    color: white !important
+}
+
+
+/*os seguintes blocos são utilizados para poder ter um comportamento de abas sem javascript,
+além disso, a última aba já inicia aberta por padrão*/
+/*o código foi obtido em http://stackoverflow.com/questions/6906724/is-it-possible-to-have-tabs-without-javascript/20104746*/
+.tab-folder > .tab-content:target ~ .tab-content:last-child, .tab-folder > .tab-content {
+    display: none;
+}
+.tab-folder > :last-child, .tab-folder > .tab-content:target {
+    display: block;
+}

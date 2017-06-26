@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<!--Tela com as ações: agendar horário, comprar produto, editar seu registro, cadastrar/listar animais --> 
+
+<html>
+	<head>
+	    <title>Pet Shop</title>
+		<link rel="stylesheet" href="user.css" type="text/css">
+		<meta name="description" content="A página com as ações disponíveis ao usuário de um pet shop chamado Pet Shop"/>
+		<meta charset="utf-8"/><!--utilizado para os caraceters acentuados-->
+		<link rel='stylesheet' href='../plugins/fullcalendar/lib/cupertino/jquery-ui.min.css' />
+		<link href='../plugins/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
+		<link href='../plugins/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+		<script src='../plugins/fullcalendar/lib/moment.min.js'></script>
+		<script src='../plugins/fullcalendar/lib/jquery.min.js'></script>
+		<script src='../plugins/fullcalendar/fullcalendar.min.js'></script>
+		<script src='../plugins/fullcalendar/locale-all.js'></script>
+
+	</head>
+	<body>
+		<div id="page">
+			<div id="logo">
+				<img src="rsz_logo.jpg" alt="Logo do pet shop Pet Shop" style="width:160px">
+			</div>
+			<nav>
+				<ul id="menu"><!--as abas da página-->
+				    <li><a href="#comprar">Comprar produtos</a></li>
+				    <li><a href="#calendario">Calendario</a></li>
+				    <li><a href="#carrinho">Seu carrinho</a></li>
+				    <li><a href="#agendar">Agendar horário</a></li>
+				    <li><a href="#editar">Editar seu registro</a></li>
+				    <li><a href="#cadastrar">Seus animais</a></li>
+				</ul>
+			</nav>
+			
+			<div class="tab-folder">
+				<div id="cadastrar" class="tab-content">
+					<div class="formulario">
+						<div class="formulario">
+							<p>Cadastrar novo animal:</p>
+						</div>
+						<div class="formulario">
+							<p>Foto:</p>
+							<input type="file" name="foto" accept="image/*">
+						</div>
+						<div class="formulario">
+							<p>Nome:</p>
+							<input type="text" name="nome" id="nome_animal">
+						</div>
+						<div class="formulario">
+							<p>Raça:</p>
+							<input type="text" name="raca" id="raca_animal">
+						</div>
+						<div class="formulario">
+							<p>Idade:</p>
+							<input type="number" name="idade" id="idade_animal">
+						</div>
+						<div class="formulario">
+							<button onclick="adicionar_animal()">Cadastrar</button>
+						</div>
+					</div>
+					<div class="animal" id="animais"><!--os animais do usuário-->
+						<!--São inseridos pelo javascript, conforme o usuário cadastra novos animais-->
+						<button onclick="popular_animais()" style="margin: 20px 20px 20px 20px;
+						color: red">Insira animais para teste</button>
+						<!--O botão serve pra cadastrar animais de teste-->
+					</div>
+				</div>
+				<div id="editar" class="tab-content">
+					<!--Edição do cadastro pelo usuário-->
+					<form>
+						<div class="formulario">
+							<div class="formulario">
+								<p>Nome completo:</p>
+								<input type="text" id="nome">
+							</div>
+							<div class="formulario">
+								<p>Email:</p>
+								<input type="email" id="email" disabled>
+							</div>
+							<div class="formulario">
+								<p>Telefone:</p>
+								<input type="tel" id="telefone">
+							</div>
+							<div class="formulario">
+								<p>Endereço:</p>
+								<input type="text" id="endereco">
+							</div>
+							<div class="formulario">
+								<p>Cidade:</p>
+								<input type="text" id="cidade">
+							</div>
+							<div class="formulario">
+							Estado:<br>
+							<select id="estado">
+								<option value="">Selecione</option>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AP">Amapá</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espirito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PR">Paraná</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SP">São Paulo</option>
+								<option value="SE">Sergipe</option>
+								<option value="TO">Tocantins</option>
+							</select>
+							</div>
+							<div class="formulario">
+								<button onclick="alterarCadastro()">Alterar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="agendar" class="tab-content">
+					<!--agendamento de serviços-->
+					<form id="form_services">
+						<div class="formulario">
+							<div class="formulario">
+								<p>Tipo de serviço: </p>
+								<select id="servico">
+									<option value="consulta">Consulta</option>
+									<option value="banho">Banho</option>
+									<option value="tosa">Tosa</option>
+								</select>
+							</div>
+							<div class="formulario">
+								<p>Seu animal: </p>
+								<input type="text" id="animal_servico">
+							</div>							
+							<div class="formulario">
+								<p>Data: </p>
+								<input type="date" id="data_servico">
+							</div>
+							<div class="formulario">
+								<p>Horário: </p>
+								<input type="time" id="hora_servico">
+							</div>
+							<div class="formulario">
+								<button onclick="agendar()">Agendar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="carrinho" class="tab-content">					
+					<!--os produtos são adicionados conforme o usuário os seleciona-->
+				</div>
+				<div id="comprar" class="tab-content">
+				<!--para funcionar o comportamento de abas, a aba a ser aberta por padrão tem que vir por último-->
+					<div class="produto" id="produtos"><!--todos os produtos à venda-->
+					<!--produtos adicionados por javascript-->
+					</div>
+					<div  class="produto">
+						<button onclick="popular_produtos()" style="margin: 20px 20px 20px 20px;
+						color: red">Insira produtos para teste</button>
+						<!--permite a adição de produtos para testar a funcionalidade-->
+					</div>
+				</div>
+				<div id="calendar" class="tab-content">
+				</div>
+			</div>
+		</div>
+		<script src="eventos.json" type="text/javascript" charset="utf-8"></script>
+		<script src="produtos.js" type="text/javascript" charset="utf-8"></script>
+		<script src="carrinho.js" type="text/javascript" charset="utf-8"></script>
+		<script src="user.js" type="text/javascript" charset="utf-8"></script>
+		<script src="animais.js" type="text/javascript" charset="utf-8"></script>
+		
+	</body>
+	<footer>
+		<div id="rodape">
+			<p>Contato</p>
+		</div>
+	</footer>
+</html>
