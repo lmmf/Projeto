@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<!--Tela com as ações: cadastrar administrador, clientes, produtos, serviços, etc.--> 
+
+<html>
+
+	<head>
+		<title>Pet Shop</title>
+		<link rel="stylesheet" href="admin.css" type="text/css">
+		<meta name="description" content="A página com as ações disponíveis ao administrador de um pet shop chamado Pet Shop"/>
+		<meta charset="utf-8"/><!--utilizado para os caraceters acentuados-->
+	</head>
+
+
+
+	<body>
+		<div id="page">
+			<div id="logo">
+				<img src="rsz_logo.jpg" alt="Logo do pet shop Pet Shop" style="width:160px">
+			</div>
+
+			<nav>
+				<ul class="menu"><!--as abas da página não funcionam-->
+				    <li><a href="admin-cadastrar.html"> Cadastrar</a></li>
+				   	<li><a href="admin-servicos.html"> Gerenciar Serviços</a></li>
+				   	<li><a href="admin-produtos.html"> Gerenciar Produtos</a></li>
+
+				</ul>
+			</nav>
+
+			<div class="tab-folder">
+
+
+				<div id="gerencia" class="tab-content">
+					<nav>
+						<ul class="menu"><!--as abas da página-->
+				    		<li><a href="#atualizar_prod">Atualizar</a></li>
+				    		<li><a href="#apagar_prod">Apagar</a></li>
+				    		<li><a onclick="relatorio_produtos()" href="#consultar_prod">Consultar</a></li>
+						</ul>
+					</nav>
+
+					<div class="sub-tab-folder">
+
+						<div id="consultar_prod" class="sub-tab-content">
+							<div class="produto-carrinho">
+								<div class="produto">
+									<button onclick="relatorio_produtos()">Gerar relatório</button>
+								</div>
+							</div>
+						</div>
+
+						<div id="apagar_prod" class="sub-tab-content">
+							<div class="formulario">
+								<div class="formulario">
+									<p>Insira o ID do produto:</p>
+									<input type="number" id="id_apagar">
+								</div>
+								<div class="formulario">
+									<button onclick="apagar_produto()">Apagar</button>
+								</div>
+							</div>
+							<br>
+							<div class="formulario">
+								<div class="formulario">
+									<p>Ou selecione na lista:</p>
+								</div>
+								<br>
+								<div class="formulario" id="lista_apagar">
+								
+								</div>
+							</div>
+						</div>
+
+						<div id="atualizar_prod" class="sub-tab-content">
+							<form>
+								<div class="formulario">
+									<div class="formulario">
+										<p>ID do produto:</p>
+										<input type="number" id="id">
+									</div>
+									<div class="formulario">
+										<p>Editar nome do produto:</p>
+										<input type="text" id="nome">
+									</div>
+									<div class="formulario">
+										<p>Editar foto:</p>
+										<input type="file" id="foto" accept="image/*">
+									</div>
+									<div class="formulario">
+										<p>Editar descrição:</p>
+										<input type="text" id="descricao">
+									</div>
+									<div class="formulario">
+										<p>Editar preço:</p>
+										<input type="number" step=0.01 id="preco">
+									</div>
+									<div class="formulario">
+										<p>Editar quantidade:</p>
+										<input type="number" id="quantidade">
+									</div>
+									<div class="formulario">
+										<p>Editar vendidos:</p>
+										<input type="number" id="vendidos">
+									</div>
+									<div class="formulario">
+										<button onclick="atualizarProd()">Atualizar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+	
+			</div>
+		</div>
+		<script src="admin_produtos.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+
+
+	<footer>
+		<div id="rodape">
+			<p>Contato</p>
+		</div>
+	</footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

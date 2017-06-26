@@ -1,0 +1,159 @@
+body {
+	background-image: url("rsz_background.jpg");
+    background-repeat: repeat;
+    background-color: white;
+	font-family: arial;
+}
+
+.button{
+    height:20px;
+    width:110px;
+}
+
+#logo {
+	background-color: white;
+	margin: 20px 20px 20px 20px;
+}
+
+#rodape {
+	margin: 20px 20px 20px 20px;
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+#usuario_logado {
+    float: right;
+    padding-top: 45px;
+    padding-right: 45px;
+}
+#buttonLogout {
+    float: right;
+    margin-top: 70px;
+    margin-right: -80px
+}
+
+/*gerenciar e cadastrar administradores, clientes, produtos e serviços são as abas da página*/
+#cadastar_admin {
+    text-align: center;
+}
+
+#cadastrar_cli {
+    text-align: center;
+}
+
+#cadastrar_prod {
+    text-align: center;
+}
+
+#cadastrar_serv {
+    text-align: center;
+}
+
+#gerenciar_prod {
+    text-align: center;
+}
+
+#cadastro {
+    text-align: center;
+}
+
+#gerencia {
+    text-align: center;
+}
+
+#atualizar_prod {
+    text-align: center;
+}
+
+#apagar_prod {
+    text-align: center;
+}
+
+#consultar_prod {
+    text-align: center;
+}
+
+#gerenciamento {
+    text-align: center;
+}
+
+/*mantém os produtos, animais e formulários com a mesma aparência*/
+.formulario {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.produto-carrinho {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.quantidade {
+	vertical-align: top;
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+.produto {
+	background-color: white;
+	text-align: center;
+	display: inline-block;
+    margin: 20px 20px 20px 20px;
+}
+
+
+/*todos os blocos que alteram o comportamento de nav foram baseados no presente em https://www.w3schools.com/css/css_navbar.asp*/
+nav {
+    background-color: rgba(255, 255, 255, 1);
+    display: block;
+    margin: 20px 20px 20px 20px;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+ 
+nav ul li {
+    display: inline-block;
+    list-style-type: none;
+}
+     
+nav > ul > li > a {
+    color: black;
+    display: block;
+    line-height: 56px;
+    padding: 0 24px;
+    text-decoration: none;
+}
+
+nav > ul > li:hover {
+	background-color: black;
+}
+ 
+nav > ul > li:hover > a {
+  color: white;
+}
+
+
+/*os seguintes blocos são utilizados para poder ter um comportamento de abas sem javascript,
+além disso, a última aba já inicia aberta por padrão*/
+/*o código foi obtido em http://stackoverflow.com/questions/6906724/is-it-possible-to-have-tabs-without-javascript/20104746*/
+.tab-folder > .tab-content:target ~ .tab-content:last-child, .tab-folder > .tab-content {
+    display: block;
+}
+.tab-folder > :last-child, .tab-folder > .tab-content:target {
+    display: block;
+}
+
+.sub-tab-folder > .sub-tab-content:target ~ .sub-tab-content:last-child, .sub-tab-folder > .sub-tab-content {
+    display: none;
+}
+.sub-tab-folder > :last-child, .sub-tab-folder > .sub-tab-content:target {
+    display: block;
+}

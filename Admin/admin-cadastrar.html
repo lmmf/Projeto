@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+<!--Tela com as ações: cadastrar administrador, clientes, produtos, serviços, etc.--> 
+
+<html>
+
+	<head>
+		<title>Pet Shop</title>
+		<link rel="stylesheet" href="admin.css" type="text/css">
+		<meta name="description" content="A página com as ações disponíveis ao administrador de um pet shop chamado Pet Shop"/>
+		<meta charset="utf-8"/><!--utilizado para os caraceters acentuados-->
+	</head>
+
+
+
+	<body>
+		<div id="page">
+			<div id="logo">
+				<img src="rsz_logo.jpg" alt="Logo do pet shop Pet Shop" style="width:160px">
+			</div>
+
+			<nav>
+				<ul class="menu"><!--as abas da página não funcionam-->
+				    <li><a href="admin-cadastrar.html"> Cadastrar</a></li>
+				   	<li><a href="admin-servicos.html"> Gerenciar Serviços</a></li>
+				   	<li><a href="admin-produtos.html"> Gerenciar Produtos</a></li>
+
+				</ul>
+			</nav>
+
+			<div class="tab-folder">
+
+
+				<div id="cadastro" class="tab-content">
+					<nav>
+						<ul class="menu"><!--as abas da página-->
+				    		<li><a href="#cadastar_admin">Administrador</a></li>
+				    		<li><a href="#cadastrar_cli">Cliente</a></li>
+				    		<li><a href="#cadastrar_prod">Produto</a></li>
+				    		<li><a href="#cadastrar_serv">Serviço</a></li>
+						</ul>
+					</nav>
+
+					<div class="sub-tab-folder">
+
+						<div id="cadastrar_serv" class="sub-tab-content">
+							<form>
+								<div class="formulario">
+									<div class="formulario">
+										<p>Nome do serviço:</p>
+										<input type="text" name="nome">
+									</div>
+									<div class="formulario">
+										<p>ID:</p>
+										<input type="number" name="id">
+									</div>
+									<div class="formulario">
+										<p>Foto:</p>
+										<input type="file" name="foto" accept="image/*">
+									</div>
+									<div class="formulario">
+										<p>Descrição do serviço:</p>
+										<input type="text" name="descricao">
+									</div>
+									<div class="formulario">
+										<p>Preço:</p>
+										<input type="number" name="preco">
+									</div>
+									<div class="formulario">
+										<input type="submit" value="Cadastrar">
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div id="cadastrar_prod" class="sub-tab-content">
+							<div class="formulario">
+								<div class="formulario">
+									<p>Nome do produto:</p>
+									<input id="nome_produto" type="text" name="nome">
+								</div>
+								<div class="formulario">
+									<p>Foto:</p>
+									<input id="foto_produto" type="file" name="foto" accept="image/*">
+								</div>
+								<div class="formulario">
+									<p>Descrição do produto:</p>
+									<input id="descricao_produto" type="text" name="descricao">
+								</div>
+								<div class="formulario">
+									<p>Preço:</p>
+									<input id="preco_produto" type="number" name="preco">
+								</div>
+								<div class="formulario">
+									<p>Quantidade:</p>
+									<input id="quantidade_produto"type="number" name="quantidade">
+								</div>
+								<div class="formulario">
+									<button onclick="adicionar_produto()">Cadastrar</button>
+								</div>
+							</div>
+						</div>
+
+						<div id="cadastrar_cli" class="sub-tab-content">
+							<div class="formulario">
+								<div class="formulario">
+									<p>Nome do cliente:</p>
+									<input type="text" id="nome_user">
+								</div>
+								<div class="formulario">
+									<p>Login:</p>
+									<input type="text" id="login_user">
+								</div>
+								<div class="formulario">
+									<p>Senha:</p>
+									<input type="password" id="senha_user">
+								</div>
+								<div class="formulario">
+									<p>Confirme a senha:</p>
+									<input type="password" id="senha_user_confirme">
+								</div>
+								<div class="formulario">
+									<p>Telefone:</p>
+									<input type="tel" id="telefone_user">
+								</div>
+								<div class="formulario">
+									<p>Endereço:</p>
+									<input type="text" id="endereco_user">
+								</div>
+								<div class="formulario">
+									<p>Cidade:</p>
+									<input type="text" id="cidade_user">
+								</div>
+								<div class="formulario">
+									<p>Estado:</p>
+									<select id="estado_user">
+										<option value="">Selecione</option>
+										<option value="AC">Acre</option>
+										<option value="AL">Alagoas</option>
+										<option value="AP">Amapá</option>
+										<option value="AM">Amazonas</option>
+										<option value="BA">Bahia</option>
+										<option value="CE">Ceará</option>
+										<option value="DF">Distrito Federal</option>
+										<option value="ES">Espirito Santo</option>
+										<option value="GO">Goiás</option>
+										<option value="MA">Maranhão</option>
+										<option value="MS">Mato Grosso do Sul</option>
+										<option value="MT">Mato Grosso</option>
+										<option value="MG">Minas Gerais</option>
+										<option value="PA">Pará</option>
+										<option value="PB">Paraíba</option>
+										<option value="PR">Paraná</option>
+										<option value="PE">Pernambuco</option>
+										<option value="PI">Piauí</option>
+										<option value="RJ">Rio de Janeiro</option>
+										<option value="RN">Rio Grande do Norte</option>
+										<option value="RS">Rio Grande do Sul</option>
+										<option value="RO">Rondônia</option>
+										<option value="RR">Roraima</option>
+										<option value="SC">Santa Catarina</option>
+										<option value="SP">São Paulo</option>
+										<option value="SE">Sergipe</option>
+										<option value="TO">Tocantins</option>
+									</select>
+								</div>
+								<div class="formulario">
+									<button onclick="cadastrar_user()">Cadastrar</button>
+								</div>
+							</div>
+						</div>
+
+						<div id="cadastrar_admin" class="sub-tab-content">
+							<div class="formulario">
+								<div class="formulario">
+									<p>Nome do administrador:</p>
+									<input type="text" id="nome_admin">
+								</div>
+								<div class="formulario">
+									<p>Login:</p>
+									<input type="text" id="login_admin">
+								</div>
+								<div class="formulario">
+									<p>Senha:</p>
+									<input type="password" id="senha_admin">
+								</div>
+								<div class="formulario">
+									<button onclick="cadastrar_admin()">Cadastrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<script src="admin_produtos.js" type="text/javascript" charset="utf-8"></script>
+		<script src="admin_cadastro.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+
+
+	<footer>
+		<div id="rodape">
+			<p>Contato</p>
+		</div>
+	</footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

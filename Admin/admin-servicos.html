@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+
+<!--Tela com as ações: agendar horário, comprar produto, editar seu registro, cadastrar/listar animais --> 
+
+<html>
+	<head>
+	    <title>Pet Shop</title>
+		<link rel="stylesheet" href="admin.css" type="text/css">
+		<meta name="description" content="A página com as ações disponíveis ao usuário de um pet shop chamado Pet Shop"/>
+		<meta charset="utf-8"/><!--utilizado para os caraceters acentuados-->
+		<script src="admin_servicos.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="page">
+			<div id="logo">
+				<img src="rsz_logo.jpg" alt="Logo do pet shop Pet Shop" style="width:160px">
+			</div>
+			<nav>
+				<ul id="menu"><!--as abas da página não funcionam-->
+				    <li><a href="admin-cadastrar.html"> Cadastrar</a></li>
+				   	<li><a href="admin-servicos.html"> Gerenciar Serviços</a></li>
+				   	<li><a href="admin-produtos.html"> Gerenciar Produtos</a></li>
+				</ul>
+			</nav>
+			<div class="tab-folder">
+				<div id="gerenciamento" class="tab-content">
+					<form>
+						<div class="formulario">
+							<div class="formulario">
+								<p>Escolha a data a ser consultada:</p>
+								<input type="date" id="data_servico">
+							</div>
+							<div class="formulario">
+								<button onclick="consultar_servico()">Consultar</button>
+							</div>
+						</div>
+					</form>
+					<div class="formulario">
+						<table id="tabela_servicos" height="114" cellpadding="10" cellspacing="0" >
+		                    <tr>
+		                      <td><strong>Horario</strong></td>
+		                      <td><strong>17/04/2017</strong></td>
+		                      <td><strong>Ação</strong></td>
+		                    </tr>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</body>
+	<footer>
+		<div id="rodape">
+			<p>Contato</p>
+		</div>
+	</footer>
+</html>
