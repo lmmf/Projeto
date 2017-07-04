@@ -92,6 +92,49 @@ function consultar_servico() {
 	};
 }
 
+
+
+
+function adicionar_servico() {
+	//verifica se o indexedDB está disponível
+	if(!window.indexedDB) {
+		console.log("Seu navegador não suporta indexedDB.");
+		return;
+	}
+
+
+	let nome=document.getElementById("nome_servico").value;
+	let id=document.getElementById("id_servico").value;
+	let foto="Servico/error.jpg"
+	let descricao=document.getElementById("descricao_servico").value;
+	let preco=document.getElementById("preco_servico").value;
+
+	if(nome=="" || descricao=="" || preco=="" || id=="") {
+		alert("Preencha todos os dados do produto");
+		return;
+	}
+
+	let solicitacao="http://localhost:8080/cadastro_serv?"+
+	"nome="+nome+
+	"&i_d="+id+
+	"&foto="+foto+
+	"&descricao="+descricao+
+	"&preco="+preco;
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+		}
+	}
+
+	document.getElementById("cadastrar_serv").reset();
+
+}
 /*
 document.getElementById("tabela_servicos").innerHTML+='\
 <tr>\

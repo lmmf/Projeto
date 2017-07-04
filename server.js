@@ -107,6 +107,79 @@ nano.db.create('users_db', (err, body)=> {
 	}
 });*/
 
+app.get('/cadastro_serv', (req, res)=> {
+	let nome=req.query.nome;
+	let id=req.query.i_d;
+	let foto=req.query.foto;
+	let descricao=req.query.descricao;
+	let preco=req.query.preco;
+
+	nano.db.create('servs_db', (err, body)=> {
+		if(err && err.statusCode!=412) {
+			console.log(err);
+			return;
+		}
+
+		let servs_db=nano.db.use('servs_db');
+
+		let obj= {
+			nome: nome,
+			id: i_d,
+			foto: foto,
+			descricao: descricao,
+			preco: preco
+		};
+
+		servs_db.insert(obj, (err, body)=> {
+			if(!err){
+				res.writeHead(200, {"Content-Type": "text/plain"});
+				res.end("Cadastro de "+nome+" realizado com sucesso");
+			}
+			else {				
+					console.log(err);
+			}
+		});
+	});
+});
+
+
+app.get('/cadastro_prod', (req, res)=> {
+	let url=req.query.url;
+	let nome=req.query.nome;
+	let descricao=req.query.descricao;
+	let preco=req.query.preco;
+	let quantidade=req.query.quantidade;
+	let vendidos=req.query.vendidos;
+
+	nano.db.create('prods_db', (err, body)=> {
+		if(err && err.statusCode!=412) {
+			console.log(err);
+			return;
+		}
+
+		let prods_db=nano.db.use('prods_db');
+
+		let obj= {
+			url: url,
+			nome: nome,
+			descricao: descricao,
+			preco: preco,
+			quantidade: quantidade,
+			vendidos: vendidos
+		};
+
+		prods_db.insert(obj, (err, body)=> {
+			if(!err){
+				res.writeHead(200, {"Content-Type": "text/plain"});
+				res.end("Cadastro de "+nome+" realizado com sucesso");
+			}
+			else {				
+					console.log(err);
+			}
+		});
+	});
+});
+
 app.get('/cadastro_user', (req, res)=> {	
 	let nome=req.query.nome;
 	let email=req.query.email;
@@ -188,3 +261,24 @@ let server=app.listen(8080, ()=> {
    let port=server.address().port;
    console.log("App listening at http://%s:%s", host, port);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

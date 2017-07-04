@@ -44,37 +44,37 @@
 
 					<div class="sub-tab-folder">
 
-						<div id="cadastrar_serv" class="sub-tab-content">
+						<form id="cadastrar_serv" class="sub-tab-content">
 							<form>
 								<div class="formulario">
 									<div class="formulario">
 										<p>Nome do serviço:</p>
-										<input type="text" name="nome">
+										<input id="nome_servico" type="text" name="nome">
 									</div>
 									<div class="formulario">
 										<p>ID:</p>
-										<input type="number" name="id">
+										<input id="id_servico" type="number" name="id">
 									</div>
 									<div class="formulario">
 										<p>Foto:</p>
-										<input type="file" name="foto" accept="image/*">
+										<input id="foto_servico" type="file" name="foto" accept="image/*">
 									</div>
 									<div class="formulario">
 										<p>Descrição do serviço:</p>
-										<input type="text" name="descricao">
+										<input id="descricao_servico" type="text" name="descricao">
 									</div>
 									<div class="formulario">
 										<p>Preço:</p>
-										<input type="number" name="preco">
+										<input id="preco_servico" type="number" name="preco">
 									</div>
 									<div class="formulario">
 										<input type="submit" value="Cadastrar">
 									</div>
 								</div>
 							</form>
-						</div>
+						</form>
 
-						<div id="cadastrar_prod" class="sub-tab-content">
+						<form id="cadastrar_prod" class="sub-tab-content">
 							<div class="formulario">
 								<div class="formulario">
 									<p>Nome do produto:</p>
@@ -100,9 +100,9 @@
 									<button onclick="adicionar_produto()">Cadastrar</button>
 								</div>
 							</div>
-						</div>
+						</form>
 
-						<div id="cadastrar_cli" class="sub-tab-content">
+						<form id="cadastrar_cli" class="sub-tab-content">
 							<div class="formulario">
 								<div class="formulario">
 									<p>Nome do cliente:</p>
@@ -169,9 +169,9 @@
 									<button onclick="cadastrar_user()">Cadastrar</button>
 								</div>
 							</div>
-						</div>
+						</form>
 
-						<div id="cadastrar_admin" class="sub-tab-content">
+						<form id="cadastrar_admin" class="sub-tab-content">
 							<div class="formulario">
 								<div class="formulario">
 									<p>Nome do administrador:</p>
@@ -189,7 +189,7 @@
 									<button onclick="cadastrar_admin()">Cadastrar</button>
 								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>	
 			</div>

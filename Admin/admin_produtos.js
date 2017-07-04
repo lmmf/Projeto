@@ -47,33 +47,26 @@ function adicionar_produto() {
 		return;
 	}
 
-	let db;
-	//tenta abrir a base de produtos
-	let request=indexedDB.open("produtosDB", 2);
+	let solicitacao="http://localhost:8080/cadastro_prod?"+
+	"url="+url+
+	"&nome="+nome+
+	"&descricao="+descricao+
+	"&preco="+preco+
+	"&quantidade="+quantidade+
+	"&vendidos="+"";
 
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
 
-	request.onupgradeneeded=(event)=> { 
-		//se a base não existir, é criada
-		let db=request.result;
-		let store=db.createObjectStore("produtos", {keyPath: "id", autoIncrement: true});
-	};
-	
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("produtos", "readwrite");
-		let store=tx.objectStore("produtos");
-		
-		//adiciona o produto
-		let teste=store.put({url: url, nome: nome, quantidade: quantidade, vendidos: 0, descricao: descricao, preco: preco});		
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+		}
+	}
 
-		alert("Produto cadastrado com sucesso!");
-		tx.oncomplete=()=> {
-			db.close();
-		};
-	};
+	document.getElementById("cadastrar_prod").reset();
 }
 
 function lista_apagar() {

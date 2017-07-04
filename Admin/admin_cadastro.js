@@ -14,42 +14,33 @@
 		alert("Insira uma senha.");
 		return;
 	}
-	
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
+
+
+	let solicitacao="http://localhost:8080/cadastro_user?"+
+		"nome="+nome+
+		"&email="+email+
+		"&senha="+senha+
+		"&telefone="+""+
+		"&endereco="+""+
+		"&cidade="+""+
+		"&estado="+""+
+		"&tipo=admin";
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+		}
 	}
-
-	// abre banco de dados (ou cria, caso não exista)
-	let request=indexedDB.open("usersDB",2);
-
-	//se IndexedDB der erro
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
-
-	// cria o schema do banco
-	request.onupgradeneeded=(event)=> { 
-		let db=request.result;			
-		let store=db.createObjectStore("users", {keyPath: "email"});	//email sera a chave primaria da tupla users
-	};
-
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("users", "readwrite");	//recupera tupla users
-		let store=tx.objectStore("users");
-
-		store.add({nome: nome, email: email, senha: senha,
-			 tipo: "admin"});
-
-		//fecha banco de dados
-		tx.oncomplete=()=> {
-			db.close();
-		};
-	};
 	
-	alert("Cadastro de "+nome+" realizado com sucesso.");
+	
+	document.getElementById("cadastrar_admin").reset();
 }
+
 
 function cadastrar_user() {
 let nome=document.getElementById("nome_user").value;
@@ -93,38 +84,26 @@ let nome=document.getElementById("nome_user").value;
 		return;
 	}
 	
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
+	let solicitacao="http://localhost:8080/cadastro_user?"+
+		"nome="+nome+
+		"&email="+email+
+		"&senha="+senha+
+		"&telefone="+telefone+
+		"&endereco="+endereco+
+		"&cidade="+cidade+
+		"&estado="+estado+
+		"&tipo=user";
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+		}
 	}
-
-	// abre banco de dados (ou cria, caso não exista)
-	let request=indexedDB.open("usersDB",2);
-
-	//se IndexedDB der erro
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
-
-	// cria o schema do banco
-	request.onupgradeneeded=(event)=> { 
-		let db=request.result;			
-		let store=db.createObjectStore("users", {keyPath: "email"});	//email sera a chave primaria da tupla users
-	};
-
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("users", "readwrite");	//recupera tupla users
-		let store=tx.objectStore("users");
-
-		store.add({nome: nome, email: email, senha: senha,
-			telefone: telefone, endereco: endereco, cidade: cidade, estado: estado, tipo: "user"});
-
-		//fecha banco de dados
-		tx.oncomplete=()=> {
-			db.close();
-		};
-	};
 	
-	alert("Cadastro de "+nome+" realizado com sucesso.");
+	document.getElementById("cadastrar_cli").reset();
 }
