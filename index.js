@@ -80,7 +80,7 @@ function login() {
 	if(email=="admin" && senha=="admin") {
 		//se o user e a senha forem admin, quer dizer que é o administrador padrão
 		localStorage.setItem("atualLogado", "admin");
-		window.location.href="../Admin/admin-cadastrar.html";
+		window.location.href="/Admin/admin-cadastrar.html";
 		return;
 	}	
 	
