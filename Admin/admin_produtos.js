@@ -27,12 +27,6 @@ function logout() {
 lista_apagar();
 
 function adicionar_produto() {
-	//verifica se o indexedDB está disponível
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
-	}
-	
 	//como não é possivel adicionar arquivos pelo Javascript, a função de adicionar fotos não está realmente implementada
 	//quando o usuário adiciona uma foto, na verdade é utilizada uma imagem de erro, já presente
 	let url="Produtos/error.jpg";
@@ -53,7 +47,7 @@ function adicionar_produto() {
 	"&descricao="+descricao+
 	"&preco="+preco+
 	"&quantidade="+quantidade+
-	"&vendidos="+"";
+	"&vendidos=0";
 
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);

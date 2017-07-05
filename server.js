@@ -3,6 +3,51 @@ let app=express();
 let fs=require('fs');
 let nano=require('nano')('http://localhost:5984');
 
+popular_produtos();
+
+function popular_produtos() {
+	nano.db.create('prods_db', (err, body)=> {
+		if(err) {
+			if(err.statusCode!=412) {
+				console.log(err);
+			}
+			return;
+		}
+			
+		fs.readFile('json/produtos.json', (err, data)=> {
+			if(err) {
+				console.log(err);
+			}
+			else {
+				if(data=='') {
+					data='[]';//se o arquivo estiver vazio, adiciona os brackets
+				}
+				let array=JSON.parse(data);//faz o parse do que tem no arquivo
+				let users_db=nano.db.use('prods_db');
+				for(let i=0;i<array.length;i++) {
+					let obj= {
+						url: array[i].url,
+						nome: array[i].nome,
+						quantidade: array[i].quantidade,
+						vendidos: array[i].vendidos,
+						descricao: array[i].descricao,
+						preco: array[i].preco
+					};
+
+					users_db.insert(obj, (err, body)=> {
+						if(!err){
+							//console.log(body);
+						}
+						else {
+							console.log(err);
+						}
+					});
+				}			
+			}
+		});
+	});
+}
+
 function retrieve_data(data, datatype, db, callback) {
 	requested_db=nano.db.use(db);
 	requested_db.list('', (err, body)=> { 
@@ -124,19 +169,20 @@ app.get('/cadastro_serv', (req, res)=> {
 
 		let obj= {
 			nome: nome,
-			id: i_d,
+			id: id,
 			foto: foto,
 			descricao: descricao,
-			preco: preco
+			preco: +preco
 		};
 
 		servs_db.insert(obj, (err, body)=> {
 			if(!err){
-				res.writeHead(200, {"Content-Type": "text/plain"});
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
 				res.end("Cadastro de "+nome+" realizado com sucesso");
 			}
 			else {				
-					console.log(err);
+				console.log(err);
 			}
 		});
 	});
@@ -163,18 +209,19 @@ app.get('/cadastro_prod', (req, res)=> {
 			url: url,
 			nome: nome,
 			descricao: descricao,
-			preco: preco,
-			quantidade: quantidade,
-			vendidos: vendidos
+			preco: +preco,
+			quantidade: +quantidade,
+			vendidos: +vendidos
 		};
 
 		prods_db.insert(obj, (err, body)=> {
 			if(!err){
-				res.writeHead(200, {"Content-Type": "text/plain"});
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
 				res.end("Cadastro de "+nome+" realizado com sucesso");
 			}
 			else {				
-					console.log(err);
+				console.log(err);
 			}
 		});
 	});
@@ -211,7 +258,8 @@ app.get('/cadastro_user', (req, res)=> {
 
 		users_db.insert(obj, (err, body)=> {
 			if(!err){
-				res.writeHead(200, {"Content-Type": "text/plain"});
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
 				res.end("Cadastro de "+nome+" realizado com sucesso");
 			}
 			else {				
@@ -232,7 +280,8 @@ app.get('/login_user', (req, res)=> {
 		}
 		
 		retrieve_data(email, 'email',  'users_db', (data)=> {
-			res.writeHead(200, {"Content-Type": "text/plain"});
+			res.writeHead(200, {'Content-Type': 'text/plain',
+				'Access-Control-Allow-Origin': '*'});
 			
 			if(data) {
 				if(data.senha==senha) {
@@ -252,6 +301,90 @@ app.get('/login_user', (req, res)=> {
 			}					
 		});
 	});
+});
+
+app.get('/pagamento', (req, res)=> {
+	prods=JSON.parse(req.query.prods);
+	prods_db=nano.use('prods_db');
+	for(let i=0;i<prods.length;i++) {
+		prods_db.get(prods[i]['id'], (err, body)=> {
+			if(!err) {
+				obj= {
+					_id: body._id,
+					_rev: body._rev,
+					url: body.url,
+					nome: body.nome,
+					quantidade: body.quantidade-(+prods[i]['quantidade']),
+					vendidos: body.vendidos+(+prods[i]['quantidade'])
+				};
+
+				prods_db.insert(obj, (err, body)=> {
+					if(!err){
+						//console.log(body);
+					}
+					else {
+						console.log(err);
+					}
+				});
+			}
+			else {
+				console.log(err);
+			}
+		});
+	}
+	res.writeHead(200, {'Content-Type': 'text/plain',
+		'Access-Control-Allow-Origin': '*'});
+	res.end("Pagamento realizado com sucesso");
+});
+
+app.get('/list_prod', (req, res)=> {
+	prods_db=nano.db.use('prods_db');
+	prods_db.list('', (err, body)=> { 
+		if(!err) {			
+			let dados=JSON.stringify(body.rows);
+			dados=JSON.parse(dados);
+			
+			let dados_size=dados.length;
+			let dados_tested=0;
+			let ret_value=null;
+			let array=JSON.parse('[]');
+			
+			for(let i=0;i<dados_size;i++) {
+				prods_db.get(dados[i]['id'], (err, body)=> { 
+					if(!err) {
+						dados_tested++;
+						array.push(body);
+						if(dados_tested==dados_size) {
+							ret_value=JSON.stringify(array);
+							res.writeHead(200, {'Content-Type': 'text/plain',
+								'Access-Control-Allow-Origin': '*'});
+							res.end(ret_value);
+						}
+					}
+					else {
+						console.log(err);
+					}
+				});
+			}
+			
+			if(dados_tested==dados_size) {
+				ret_value=JSON.stringify(array);
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
+				res.end(ret_value);
+			}
+		}
+		else {
+			console.log(err);
+		}
+	});
+	
+});
+
+app.use((req, res, next)=> {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	next();
 });
 
 app.use(express.static( __dirname));

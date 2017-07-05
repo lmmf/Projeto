@@ -1,17 +1,77 @@
-﻿//parte do IndexedDB foi baseada no tutorial da MDN,
-//disponível em https://developer.mozilla.org/pt-BR/docs/IndexedDB/Usando_IndexedDB
-//parte do IndexedDB foi baseada nesse exemplo:
-//https://gist.github.com/BigstickCarpet/a0d6389a5d0e3a24814b
-//parte do IndexedDB foi baseada nos slides de aula
-//a parte de cursores foi baseada em:
-//https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor
+﻿povoarCarrinho();
 
-povoarCarrinho();
+var produtos_comprados;
 
 function pagar() {
-	//como a funcionalidade não é implementada, o pagamento do usuário é sempre recusado
-	alert("O seu pagamento foi recusado pela operadora do cartão. Por favor, "+
-			"entre em contato com sua operadora ou tente novamente com outro cartão");
+	let numero=document.getElementById("numero_cartao").value;
+	if(numero=="") {
+		alert("Insira o número do cartão");
+		return;
+	}
+	let nome=document.getElementById("nome_cartao").value;
+	if(nome=="") {
+		alert("Insira o nome do titular como escrito no cartão");
+		return;
+	}
+	let mes=document.getElementById("mes_cartao").value;
+	if(mes=="") {
+		alert("Insira a data de validade do cartão");
+		return;
+	}
+	let cvv=document.getElementById("cvv_cartao").value;
+	if(cvv=="") {
+		alert("Insira o códgio de segurança do cartão");
+		return;
+	}
+	
+	produtos_comprados=JSON.stringify(produtos_comprados);
+	
+	let solicitacao="http://localhost:8080/pagamento?prods="+produtos_comprados;
+	console.log(solicitacao);
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+			limpar();
+			exibir_produtos();
+			povoarCarrinho();
+		}
+	};	
+}
+
+function limpar() {
+	//remove uma unidade do produto no carrinho
+	if(!window.indexedDB) {
+		console.log("Seu navegador não suporta indexedDB.");
+		return;
+	}
+
+	let db;
+	//tenta abrir o banco do carrinho
+	let request=indexedDB.open("carrinhoDB", 2);
+
+	request.onerror=(event)=> {
+		alert("Erro ao utilizar IndexedDB.");
+	};
+
+	request.onupgradeneeded=(event)=> { 
+		//se o banco não puder ser aberto, é criado
+		let db=request.result;
+		let store=db.createObjectStore("produtos", {keyPath: "id"});
+	};
+
+	request.onsuccess=(event)=> {
+		let db=request.result;
+		let tx=db.transaction("produtos", "readwrite");
+		let store=tx.objectStore("produtos");
+		
+		store.clear();
+	};
 }
 
 function finalizar() {
@@ -47,7 +107,7 @@ function finalizar() {
 function povoarCarrinho() {
 	//função que exibe todos os produtos do carrinho
 	if(!window.indexedDB) {
-		//resta se o indexedDB está disponível
+		//testa se o indexedDB está disponível
 		console.log("Seu navegador não suporta indexedDB.");
 		return;
 	}
@@ -71,6 +131,8 @@ function povoarCarrinho() {
 	
 	//preço que vai ser incrementado pra dar o valor da compra
 	let preco_total=0;
+			
+	produtos_comprados=JSON.parse('[]');
 
 	request.onsuccess=(event)=> {
 		let db=request.result;
@@ -94,9 +156,9 @@ function povoarCarrinho() {
 							<div class="quantidade">\
 								<p>Quantidade:</p>\
 								<p>'+cursor.value.quantidade+'</p>\
-								<button onclick="remover('+cursor.value.id+',\''
+								<button onclick="remover(\''+cursor.value.id+'\',\''
 								+cursor.value.url+'\',\''+cursor.value.nome+'\','+cursor.value.quantidade_disponivel+','+cursor.value.preco+')">-</button>\
-								<button onclick="adicionar('+cursor.value.id+',\''
+								<button onclick="adicionar(\''+cursor.value.id+'\',\''
 								+cursor.value.url+'\',\''+cursor.value.nome+'\','+cursor.value.quantidade_disponivel+','+cursor.value.preco+')">+</button>\
 							</div>\
 							<div class="quantidade">\
@@ -105,6 +167,8 @@ function povoarCarrinho() {
 							</div>\
 						</div>\
 						<br>';
+						
+					produtos_comprados.push({id: cursor.value.id, quantidade: cursor.value.quantidade});
 					
 					preco_total+=cursor.value.quantidade*cursor.value.preco;
 				}
@@ -125,6 +189,7 @@ function povoarCarrinho() {
 }
 
 function adicionar(id, url, nome, quantidade_disponivel, preco) {	
+	window.location.href='/User/user.html#carrinho';
 	//adiciona produtos no carrinho
 	if(!window.indexedDB) {
 		//testa se o indexedDB está disponível

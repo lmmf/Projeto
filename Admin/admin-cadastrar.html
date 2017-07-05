@@ -45,33 +45,31 @@
 					<div class="sub-tab-folder">
 
 						<form id="cadastrar_serv" class="sub-tab-content">
-							<form>
+							<div class="formulario">
 								<div class="formulario">
-									<div class="formulario">
-										<p>Nome do serviço:</p>
-										<input id="nome_servico" type="text" name="nome">
-									</div>
-									<div class="formulario">
-										<p>ID:</p>
-										<input id="id_servico" type="number" name="id">
-									</div>
-									<div class="formulario">
-										<p>Foto:</p>
-										<input id="foto_servico" type="file" name="foto" accept="image/*">
-									</div>
-									<div class="formulario">
-										<p>Descrição do serviço:</p>
-										<input id="descricao_servico" type="text" name="descricao">
-									</div>
-									<div class="formulario">
-										<p>Preço:</p>
-										<input id="preco_servico" type="number" name="preco">
-									</div>
-									<div class="formulario">
-										<input type="submit" value="Cadastrar">
-									</div>
+									<p>Nome do serviço:</p>
+									<input id="nome_servico" type="text">
 								</div>
-							</form>
+								<div class="formulario">
+									<p>ID:</p>
+									<input id="id_servico" type="number">
+								</div>
+								<div class="formulario">
+									<p>Foto:</p>
+									<input id="foto_servico" type="file" accept="image/*">
+								</div>
+								<div class="formulario">
+									<p>Descrição do serviço:</p>
+									<input id="descricao_servico" type="text">
+								</div>
+								<div class="formulario">
+									<p>Preço:</p>
+									<input id="preco_servico" type="number">
+								</div>
+								<div class="formulario">
+									<button onclick="adicionar_servico()">Cadastrar</button>
+								</div>
+							</div>
 						</form>
 
 						<form id="cadastrar_prod" class="sub-tab-content">
@@ -194,6 +192,7 @@
 				</div>	
 			</div>
 		</div>
+		<script src="admin_servicos.js" type="text/javascript" charset="utf-8"></script>
 		<script src="admin_produtos.js" type="text/javascript" charset="utf-8"></script>
 		<script src="admin_cadastro.js" type="text/javascript" charset="utf-8"></script>
 	</body>
