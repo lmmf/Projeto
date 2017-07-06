@@ -28,102 +28,46 @@ let email = document.getElementById("email").value = logado; //deixa email ja pr
 
 function alterarCadastro()
 {
-	//checa de o browser consegue trabalhar com indexeDB
-	if(!indexedDB)
-	{
-		console.log("Seu navegador não suporta indexedDB.");
-		return;		
-	}
-
-	//abre o pseudo banco (ou cria, caso não exista)
-	let request=indexedDB.open("usersDB",2);
-
-	//se IndexedDB der erro
-	request.onerror = (event) => {alert("Erro ao utilizar IndexedDB.");};
-
-	//cria o schema do banco
-	request.onupgradeneeded = (event) => 
-	{ 
-		let db=request.result;
-		let store=db.createObjectStore("users", {keyPath: "email"});
-	};
+						
+	let nome=document.getElementById("nome").value;
+	let email=document.getElementById("email").value;
+	let telefone=document.getElementById("telefone").value;
+	let endereco=document.getElementById("endereco").value;
+	let cidade=document.getElementById("cidade").value;
+	let estado=document.getElementById("estado").value;
 	
-	//realiza os operacoes no pseudobanco 
-	request.onsuccess = (event) => 
+	if(nome=="" && (email==""  || email == logado) && telefone=="" && endereco=="" && cidade=="" && estado=="") 
 	{
-		let db=request.result;
-		let tx=db.transaction("users", "readwrite");
-		let store=tx.objectStore("users");	
+		alert("Pelo menos um dos campos devem ser preechidos");
+		return;
+	}	
+	
+	let solicitacao="http://localhost:8080/altera_user?"+
+		"nome="+nome+
+		"&email="+email+
+		"&telefone="+telefone+
+		"&endereco="+endereco+
+		"&cidade="+cidade+
+		"&estado="+estado;
 		
-		//se browser suporta storage
-		if (typeof(Storage) !== "undefined") 
-		{
-			let atualiza = store.openCursor();					//abre cursor para atualizar
-			atualiza.onsuccess = (event) => 
-			{
-				let cursor = event.target.result;
-				if(cursor) {
-					if(cursor.value.email == logado) 
-					{
-						let dados = cursor.value;				//recupera dados no banco
-						//console.log(dados);
-						
-						let nome=document.getElementById("nome").value;
-						let email=document.getElementById("email").value;
-						let telefone=document.getElementById("telefone").value;
-						let endereco=document.getElementById("endereco").value;
-						let cidade=document.getElementById("cidade").value;
-						let estado=document.getElementById("estado").value;
-						
-						//se alguma dos inputs estiverem vazios, nao alterar nada no banco
-						if(nome!=="")
-							dados.nome = nome;
-						//if(email!=="") 
-						//{
-							//dados.email = email;
-							//localStorage.setItem("atualLogado", email); //troca email logado tb
-						//}
-						
-						if(telefone!=="")
-							dados.telefone = telefone;
-						if(endereco!=="")
-							dados.endereco = endereco;
-						if(cidade!=="")
-							dados.cidade = cidade;
-						if(estado!=="")
-							dados.estado = estado;
-						if(nome=="" && (email==""  || email == logado) && telefone=="" && endereco=="" && cidade=="" && estado=="") 
-						{
-							alert("Pelo menos um dos campos devem ser preechidos");
-							return;
-						}						
-							
-						//atualiza banco
-						console.log("Novo nome: "+dados.nome);
-						let atualizaBD = cursor.update(dados);
-						atualizaBD.onsuccess = () => {alert("Os dados foram atualizados com sucesso" + dados.nome);};
-						
-						atualizaBD.onerror = () => {alert("Não foi possível atualizar o Banco de Dados");};						
-					}
-					//nao encontrou ninguem com o email logado, no banco
-					else {alert("Não foi possível encontrar o usuário do email "+logado);}
-				}
-				//nao conseguiu reabrir o banco para o update
-				else {alert("Não foi possível reabrir o banco;");}	
-				cursor.continue();
-			};			
-		}
-		else {alert("Seu navegador não suporte Local Storage");}
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
 
-		//encerra banco
-		tx.oncomplete = () => {db.close();}	
-	};
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			alert(string);
+			document.getElementById("form_editar").reset();
+			document.getElementById("email").value = logado;
+		}
+	};	
 }
 
 function logout() {
 	if (typeof(Storage) !== "undefined") 
 			localStorage.removeItem("atualLogado");	//deleta o token da pessoa logada
-	window.location.href="../Index/index.html";
+	window.location.href="../index.html";
 	return;
 }
 

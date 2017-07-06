@@ -227,6 +227,110 @@ app.get('/cadastro_prod', (req, res)=> {
 	});
 });
 
+app.get('/list_animais', (req, res)=> {
+	let email=req.query.email;
+	
+	if(email=='') {
+		console.log('list_animais: faltando email, está logado?');
+		return;
+	}
+
+	retrieve_data(email, 'email',  'users_db', (data)=> {	
+		nano.db.create('animais_db', (err, body)=> {
+			if(err && err.statusCode!=412) {
+				console.log(err);
+				return;
+			}	
+			animais_db=nano.db.use('animais_db');
+			animais_db.list('', (err, body)=> { 
+				if(!err) {			
+					let dados=JSON.stringify(body.rows);
+					dados=JSON.parse(dados);
+					
+					let dados_size=dados.length;
+					let dados_tested=0;
+					let ret_value=null;
+					let array=JSON.parse('[]');
+					
+					for(let i=0;i<dados_size;i++) {
+						animais_db.get(dados[i]['id'], (err, body)=> { 
+							if(!err) {
+								dados_tested++;
+								if(body.dono=data._id) {
+									array.push(body);
+									if(dados_tested==dados_size) {
+										ret_value=JSON.stringify(array);
+										res.writeHead(200, {'Content-Type': 'text/plain',
+											'Access-Control-Allow-Origin': '*'});
+										res.end(ret_value);
+									}
+								}
+							}
+							else {
+								console.log(err);
+							}
+						});
+					}
+					
+					if(dados_tested==dados_size) {
+						ret_value=JSON.stringify(array);
+						res.writeHead(200, {'Content-Type': 'text/plain',
+							'Access-Control-Allow-Origin': '*'});
+						res.end(ret_value);
+					}
+				}
+				else {
+					console.log(err);
+				}
+			});		
+		});
+	});	
+});
+
+app.get('/cadastro_animal', (req, res)=> {	
+	let nome=req.query.nome;
+	let email=req.query.email;
+	let raca=req.query.raca;
+	let idade=req.query.idade;
+	let url=req.query.url;
+	
+	if(email=='') {
+		console.log('altera_user: faltando email, está logado?');
+		return;
+	}
+
+	retrieve_data(email, 'email',  'users_db', (data)=> {
+		nano.db.create('animais_db', (err, body)=> {
+			if(err && err.statusCode!=412) {
+				console.log(err);
+				return;
+			}
+			
+			let animais_db=nano.db.use('animais_db');
+			
+			let obj= {
+				nome: nome,
+				raca: raca,
+				idade: idade,
+				url: url,
+				dono: data._id
+			};
+
+			animais_db.insert(obj, (err, body)=> {
+				if(!err){
+					res.writeHead(200, {'Content-Type': 'text/plain',
+						'Access-Control-Allow-Origin': '*'});
+					res.end("Cadastro de "+nome+" realizado com sucesso");
+				}
+				else {				
+					console.log(err);
+				}
+			});
+		});
+	});
+});
+
+
 app.get('/cadastro_user', (req, res)=> {	
 	let nome=req.query.nome;
 	let email=req.query.email;
@@ -299,6 +403,60 @@ app.get('/login_user', (req, res)=> {
 			else {
 				res.end("err_email");
 			}					
+		});
+	});
+});
+
+app.get('/altera_user', (req, res)=> {
+	let nome=req.query.nome;
+	let email=req.query.email;
+	let telefone=req.query.telefone;
+	let endereco=req.query.endereco;
+	let cidade=req.query.cidade;
+	let estado=req.query.estado;
+	if(email=='') {
+		console.log('altera_user: faltando email, está logado?');
+		return;
+	}
+	retrieve_data(email, 'email', 'users_db',(data)=> {
+		if(nome=='') {
+			nome=data.nome;
+		}
+		if(telefone=='') {
+			telefone=data.telefone;
+		}
+		if(endereco=='') {
+			endereco=data.endereco;
+		}
+		if(cidade=='') {
+			cidade=data.cidade;
+		}
+		if(estado=='') {
+			estado=data.estado;
+		}
+		
+		obj= {
+			_id: data._id,
+			_rev: data._rev,
+			nome: nome,
+			email: data.email,
+			senha: data.senha,
+			telefone: telefone,
+			endereco: endereco,
+			cidade: cidade,
+			estado: estado,
+			tipo: data.tipo
+		};
+		users_db=nano.use('users_db');
+		users_db.insert(obj, (err, body)=> {
+			if(!err){
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
+				res.end("Cadastro alterado com sucesso");
+			}
+			else {
+				console.log(err);
+			}
 		});
 	});
 });
