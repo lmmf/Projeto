@@ -183,29 +183,7 @@ function atualizarProd() {
 			alert(string);
 			document.getElementById("form_prod").reset();
 		}
-	};	
-	
-	
-		//procura o produto com o id passado
-		/*
-		let getProduto=store.get(id);
-				
-		getProduto.onsuccess=()=> {
-			//os dados em branco permanecerão iguais
-			if(nome=="")
-				nome=getProduto.result.nome;
-			if(descricao=="")
-				descricao=getProduto.result.descricao;
-			if(preco=="")
-				preco=getProduto.result.preco;
-			if(quantidade=="")
-				quantidade=getProduto.result.quantidade;
-			if(vendidos=="")
-				vendidos=getProduto.result.vendidos;
-			url=getProduto.result.url;
-			store.put({id: id, url: url, nome: nome, quantidade: quantidade, 
-				vendidos: vendidos, descricao: descricao, preco: preco});*/
-	
+	};		
 }
 
 function relatorio_produtos() {
