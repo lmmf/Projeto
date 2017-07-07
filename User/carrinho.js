@@ -29,7 +29,7 @@ function pagar() {
 	let solicitacao="http://localhost:8080/pagamento?prods="+produtos_comprados;
 	console.log(solicitacao);
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

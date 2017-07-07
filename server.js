@@ -256,14 +256,14 @@ app.get('/list_animais', (req, res)=> {
 						animais_db.get(dados[i]['id'], (err, body)=> { 
 							if(!err) {
 								dados_tested++;
-								if(body.dono=data._id) {
+								if(body.dono==data._id) {
 									array.push(body);
-									if(dados_tested==dados_size) {
-										ret_value=JSON.stringify(array);
-										res.writeHead(200, {'Content-Type': 'text/plain',
-											'Access-Control-Allow-Origin': '*'});
-										res.end(ret_value);
-									}
+								}
+								if(dados_tested==dados_size) {
+									ret_value=JSON.stringify(array);
+									res.writeHead(200, {'Content-Type': 'text/plain',
+										'Access-Control-Allow-Origin': '*'});
+									res.end(ret_value);
 								}
 							}
 							else {

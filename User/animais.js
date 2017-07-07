@@ -17,14 +17,15 @@ function exibir_animais() {
 	document.getElementById("animais").innerHTML='';
 	
 	let solicitacao="http://localhost:8080/list_animais?"+
-		'&email='+logado;
+		'email='+logado;
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		console.log(xmlhttp.readyState+' '+xmlhttp.status);
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
 			obj=JSON.parse(string);
 			
@@ -77,7 +78,7 @@ function adicionar_animal() {
 		"&url="+url+
 		"&email="+email;
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

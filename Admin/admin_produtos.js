@@ -49,7 +49,7 @@ function adicionar_produto() {
 	"&quantidade="+quantidade+
 	"&vendidos=0";
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

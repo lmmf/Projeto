@@ -26,7 +26,7 @@
 		"&estado="+""+
 		"&tipo=admin";
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
@@ -94,7 +94,7 @@ let nome=document.getElementById("nome_user").value;
 		"&estado="+estado+
 		"&tipo=user";
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

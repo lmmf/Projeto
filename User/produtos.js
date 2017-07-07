@@ -8,7 +8,7 @@ function exibir_produtos() {
 	
 	let solicitacao="http://localhost:8080/list_prod";
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

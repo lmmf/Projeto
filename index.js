@@ -51,7 +51,7 @@ function cadastrar() {
 		"&estado="+estado+
 		"&tipo=user";
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
@@ -87,7 +87,7 @@ function login() {
 		"&email="+email+
 		"&senha="+senha;
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

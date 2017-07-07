@@ -50,7 +50,7 @@ function alterarCadastro()
 		"&cidade="+cidade+
 		"&estado="+estado;
 		
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 

@@ -121,7 +121,7 @@ function adicionar_servico() {
 	"&descricao="+descricao+
 	"&preco="+preco;
 
-	xmlhttp=new XMLHttpRequest();
+	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
