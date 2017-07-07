@@ -20,7 +20,7 @@ element.appendChild(buttonLogout);
 function logout() {
 	if (typeof(Storage) !== "undefined") 
 			localStorage.removeItem("atualLogado");	//deleta o token da pessoa logada
-	window.location.href="../Index/index.html";
+	window.location.href="../index.html";
 	return;
 }
 
@@ -71,162 +71,123 @@ function lista_apagar() {
 						<p>Não há produtos para listar</p>\
 					</div>\
 				</div>';
-
-	if(!window.indexedDB) {
-		//verifica se o indexedDB está disponível
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
-	}
-
-	let db;
-	//tenta abrir a base de produtos
-	let request=indexedDB.open("produtosDB", 2);
-
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
-
-	request.onupgradeneeded=(event)=> { 
-		//se a base não existir, é criada
-		let db=request.result;
-		let store=db.createObjectStore("produtos", {keyPath: "id", autoIncrement: true});
-	};
-
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("produtos", "readwrite");
-		let store=tx.objectStore("produtos");
 		
-		//flag utilizada para saber se há pelo menos um produto
-		let flag=0;
-		
-		store.openCursor().onsuccess=(event)=> {
-			let cursor=event.target.result;
+	//flag utilizada para saber se há pelo menos um produto
+	let flag=0;
+				
+	let solicitacao="http://localhost:8080/list_prod";
+
+	let xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+	
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			obj=JSON.parse(string);
 			
-			if(cursor) {
+			//adiciona todos os produtos no DOM
+			for(let i=0;i<obj.length;i++) {
 				if(flag==0) {
 					//quando o primeiro produto é encontrado, a lista é limpa
 					document.getElementById("lista_apagar").innerHTML='';
 					flag=1;
 				}
-				
 				//insere todos os produtos
 				//o usuário pode apagá-lo clicando em qualquer ligar do div
 				document.getElementById("lista_apagar").innerHTML+='\
-								<div class="produto" onclick="apagar_produto('+cursor.value.id+')">\
-									<img src="'+cursor.value.url+'"\
-									alt="'+cursor.value.nome+'" style="width:160px;height:160px">\
-									<p>'+cursor.value.nome+'</p>\
+								<div class="produto" onclick="apagar_produto(\''+obj[i]._id+'\')">\
+									<img src="'+obj[i].url+'"\
+									alt="'+obj[i].nome+'" style="width:160px;height:160px">\
+									<p>'+obj[i].nome+'</p>\
 								</div>\
 								<div class="quantidade">\
-									<p>ID: '+cursor.value.id+'</p>\
+									<p>ID: '+obj[i]._id+'</p>\
 								</div>\
 							<br>';
-				cursor.continue();
-			}
-		};
-	};
+			}	
+		}
+	}				
 }
 	
 
 function apagar_produto(id) {
-	//apaga o produto selecionado (ou entrado pelo user)
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
-	}
-	
+	//apaga o produto selecionado (ou entrado pelo user)	
 	if(arguments.length==0) {
 		//só argumento quando é chamada ao clicar na lista
 		//se não há argumentos, é utilizado o id entrado pelo usuário		
-		id=+document.getElementById("id_apagar").value;
+		id=document.getElementById("id_apagar").value;
 		
 		if(id=="") {
 			alert("Insira o ID do produto");
 			return;
 		}
 	}
+	
+	//apaga o produto selecionado (ou entrado pelo user)
+	let solicitacao="http://localhost:8080/apaga_prod?"+
+	"id="+id;
 
-	let db;
-	//tenta abrir a base de produtos
-	let request=indexedDB.open("produtosDB", 2);
+	let xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
 
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
-
-	request.onupgradeneeded=(event)=> { 
-		//se a base não existe, é criada
-		let db=request.result;
-		let store=db.createObjectStore("produtos", {keyPath: "id", autoIncrement: true});
-	};
-
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("produtos", "readwrite");
-		let store=tx.objectStore("produtos");
-		
-		//apaga o objeto
-		console.log(id);
-		let apagar=store.delete(id);
-
-		apagar.onsuccess = (event) =>{
-			//refaz a lista
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			let string=xmlhttp.responseText;
+			alert(string);
 			lista_apagar();
-		};
-		tx.oncomplete=()=> {
-			db.close();
-		};
-	};
+		}
+	}
 }
 
 function atualizarProd() {
-	//checa se o browser consegue trabalhar com indexeDB
-	if(!indexedDB)
+	let id=document.getElementById("id").value;
+	let nome=document.getElementById("nome").value;
+	let descricao=document.getElementById("descricao").value;
+	let preco=document.getElementById("preco").value;
+	let quantidade=document.getElementById("quantidade").value;
+	let vendidos=document.getElementById("vendidos").value;
+	let url="";
+	
+	if(id=="")
 	{
-		console.log("Seu navegador não suporta indexedDB.");
-		return;		
+		alert("O campo ID deve ser preenchido!");
+		return;
 	}
-
-	//abre o pseudo banco (ou cria, caso não exista)
-	let request=indexedDB.open("produtosDB",2);
-
-	//se IndexedDB der erro
-	request.onerror = (event) => {alert("Erro ao utilizar IndexedDB.");};
-
-	request.onupgradeneeded=(event)=> 
-	{ 
-		//se a base não existir, é criada
-		let db=request.result;
-		let store=db.createObjectStore("produtos", {keyPath: "id"});
-	};
-
-	request.onsuccess=(event)=> 
+	
+	if(nome=="" && descricao=="" && preco=="" && quantidade=="" && vendidos=="") 
 	{
-		let db=request.result;
-		let tx=db.transaction("produtos", "readwrite");
-		let store=tx.objectStore("produtos");
+		alert("Pelo menos um dos campos devem ser preechidos");
+		return;	
+	}
+	
+	
+	
+	let solicitacao="http://localhost:8080/altera_prod?"+
+		"id="+id+
+		"&nome="+nome+
+		"&descricao="+descricao+
+		"&url="+url+
+		"&preco="+preco+
+		"&quantidade="+quantidade+
+		"&vendidos="+vendidos;
+		
+	let xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
 
-		let id=+document.getElementById("id").value;
-		let nome=document.getElementById("nome").value;
-		let descricao=document.getElementById("descricao").value;
-		let preco=+document.getElementById("preco").value;
-		let quantidade=+document.getElementById("quantidade").value;
-		let vendidos=+document.getElementById("vendidos").value;
-		
-		if(id=="")
-		{
-			alert("O campo ID deve ser preenchido!");
-			return;
+	xmlhttp.onreadystatechange=()=> {
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			let string=xmlhttp.responseText;
+			alert(string);
+			document.getElementById("form_prod").reset();
 		}
-		
-		if(nome=="" && descricao=="" && preco=="" && quantidade=="" && vendidos=="") 
-		{
-			alert("Pelo menos um dos campos devem ser preechidos");
-			return;	
-		}
-		
+	};	
+	
+	
 		//procura o produto com o id passado
+		/*
 		let getProduto=store.get(id);
 				
 		getProduto.onsuccess=()=> {
@@ -243,13 +204,7 @@ function atualizarProd() {
 				vendidos=getProduto.result.vendidos;
 			url=getProduto.result.url;
 			store.put({id: id, url: url, nome: nome, quantidade: quantidade, 
-				vendidos: vendidos, descricao: descricao, preco: preco});			
-
-		};
-
-		alert("Produto atualizado com sucesso!");
-		tx.oncomplete = () => {db.close();};
-	};
+				vendidos: vendidos, descricao: descricao, preco: preco});*/
 	
 }
 
@@ -261,72 +216,63 @@ function relatorio_produtos() {
 						<p>Não há produtos para listar</p>\
 					</div>\
 				</div>';
+				
+	//flag utilizada para saber se há pelo menos um produto
+	let flag=0;
+				
+	let total=0;
+				
+	let solicitacao="http://localhost:8080/list_prod";
 
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
-	}
-
-	let db;
-	//tenta abrir a base de produtos
-	let request=indexedDB.open("produtosDB", 2);
-
-	request.onerror=(event)=> {
-		alert("Erro ao utilizar IndexedDB.");
-	};
-
-	request.onupgradeneeded=(event)=> { 
-		//se a base não existe, é criada
-		let db=request.result;
-		let store=db.createObjectStore("produtos", {keyPath: "id", autoIncrement: true});
-	};
-
-	request.onsuccess=(event)=> {
-		let db=request.result;
-		let tx=db.transaction("produtos", "readwrite");
-		let store=tx.objectStore("produtos");
-		
-		//flag indica se há pelo menos um produto para listar
-		let flag=0;
-		
-		store.openCursor().onsuccess=(event)=> {
-			let cursor=event.target.result;
-			//abre um cursor com todos os produtos
-			if(cursor) {
-				if(flag==0) {	
-					//no primeiro produto, apaga a mensagem de erro e seta a flag
+	let xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET", solicitacao, true);
+	xmlhttp.send();
+	
+	xmlhttp.onreadystatechange=()=> {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			let string=xmlhttp.responseText;
+			obj=JSON.parse(string);
+			
+			//adiciona todos os produtos no DOM
+			for(let i=0;i<obj.length;i++) {
+				if(flag==0) {
+					//quando o primeiro produto é encontrado, a lista é limpa
 					document.getElementById("consultar_prod").innerHTML='';
 					flag=1;
 				}
-				
 				//adiciona os produtos ao DOM
 				document.getElementById("consultar_prod").innerHTML+='\
 							<div class="produto-carrinho">\
 								<div class="produto">\
-									<img src="'+cursor.value.url+'" alt="'+cursor.value.nome+'" style="width:160px;height:160px">\
-									<p>'+cursor.value.nome+'</p>\
+									<img src="'+obj[i].url+'" alt="'+obj[i].nome+'" style="width:160px;height:160px">\
+									<p>'+obj[i].nome+'</p>\
 								</div>\
 								<div class="quantidade">\
 									<p>Quantidade em estoque:</p>\
-									<p>'+cursor.value.quantidade+'</p>\
+									<p>'+obj[i].quantidade+'</p>\
 								</div>\
 								<div class="quantidade">\
 									<p>Preço unitário:</p>\
-									<p>'+cursor.value.preco.toString().replace('.', ',')+'</p>\
+									<p>R$ '+(+obj[i].preco).toFixed(2).toString().replace('.', ',')+'</p>\
 								</div>\
 								<div class="quantidade">\
 									<p>ID:</p>\
-									<p>'+cursor.value.id+'</p>\
+									<p>'+obj[i]._id+'</p>\
 								</div>\
 								<div class="quantidade">\
 									<p>Vendidos:</p>\
-									<p>'+cursor.value.vendidos+'</p>\
+									<p>'+obj[i].vendidos+'</p>\
 								</div>\
+							</div>';
+				total+=obj[i].vendidos*obj[i].preco;
+			}	
+			document.getElementById("consultar_prod").innerHTML+='\
+						<br>\
+						<div class="produto-carrinho">\
+							<div class="produto">\
+								<p>Total vendido: R$ '+total.toFixed(2).toString().replace('.', ',')+'</p>\
 							</div>\
-							<br>';
-				console.log(cursor);
-				cursor.continue();
-			}
-		};
-	};
+						</div>';
+		}
+	}				
 }

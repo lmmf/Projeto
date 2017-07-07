@@ -24,7 +24,6 @@ function exibir_animais() {
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		console.log(xmlhttp.readyState+' '+xmlhttp.status);
 		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
 			obj=JSON.parse(string);

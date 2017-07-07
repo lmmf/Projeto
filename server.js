@@ -461,6 +461,61 @@ app.get('/altera_user', (req, res)=> {
 	});
 });
 
+
+
+app.get('/altera_prod', (req, res)=> {
+	let id=req.query.id;
+	let nome=req.query.nome;
+	let descricao=req.query.descricao;
+	let preco=req.query.preco;
+	let quantidade=req.query.quantidade;
+	let vendidos=req.query.vendidos;
+	let url=req.query.url;
+	
+	retrieve_data(id, '_id', 'prods_db',(data)=> {
+		if(nome=='') {
+			nome=data.nome;
+		}
+		if(descricao=='') {
+			descricao=data.descricao;
+		}
+		if(preco=='') {
+			preco=data.preco;
+		}
+		if(quantidade) {
+			quantidade=data.quantidade;
+		}
+		if(vendidos=='') {
+			vendidos=data.vendidos;
+		}
+		if(url=='') {
+			url=data.url;
+		}
+		
+		obj= {
+			_id: data._id,
+			_rev: data._rev,
+			url: url,
+			nome: nome,
+			quantidade: +quantidade,
+			vendidos: +vendidos,
+			descricao: descricao,
+			preco: +preco
+		};
+		prods_db=nano.use('prods_db');
+		prods_db.insert(obj, (err, body)=> {
+			if(!err){
+				res.writeHead(200, {'Content-Type': 'text/plain',
+					'Access-Control-Allow-Origin': '*'});
+				res.end("Cadastro alterado com sucesso");
+			}
+			else {
+				console.log(err);
+			}
+		});
+	});
+});
+
 app.get('/pagamento', (req, res)=> {
 	prods=JSON.parse(req.query.prods);
 	prods_db=nano.use('prods_db');
@@ -493,6 +548,28 @@ app.get('/pagamento', (req, res)=> {
 	res.writeHead(200, {'Content-Type': 'text/plain',
 		'Access-Control-Allow-Origin': '*'});
 	res.end("Pagamento realizado com sucesso");
+});
+
+app.get('/apaga_prod', (req, res)=> {
+	id=req.query.id;
+	prods_db=nano.db.use('prods_db');
+	prods_db.get(id, (err, body)=> { 
+		if(!err) {
+			prods_db.destroy(id, body._rev, (err, body)=> {
+				if(!err) {
+					res.writeHead(200, {'Content-Type': 'text/plain',
+						'Access-Control-Allow-Origin': '*'});
+					res.end("Produto apagado com sucesso");
+				}
+				else {
+					console.log(err);
+				}
+			});
+		}
+		else {
+			console.log(err);
+		}
+	});
 });
 
 app.get('/list_prod', (req, res)=> {
