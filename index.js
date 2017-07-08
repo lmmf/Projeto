@@ -1,5 +1,7 @@
 function cadastrar() {
 	//faz o cadastro de novos usuários
+	
+	//verifica a inserção de todos os dados
 	let nome=document.getElementById("nome").value;
 	if(nome=="") {
 		alert("Insira seu nome.");
@@ -41,6 +43,7 @@ function cadastrar() {
 		return;
 	}
 	
+	//solicitacao com todos os dados
 	let solicitacao="http://localhost:8080/cadastro_user?"+
 		"nome="+nome+
 		"&email="+email+
@@ -52,11 +55,13 @@ function cadastrar() {
 		"&tipo=user";
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao para o servidor
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		//quando o servidor termina a solicitacao, exibe o alerta
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
 			alert(string);
 			document.getElementById("form_cadastra").reset();
@@ -65,6 +70,7 @@ function cadastrar() {
 }
 
 function login() {
+	//faz login do usuário
 	let email=document.getElementById("cadastrado_email").value;
 	if(email=="") {
 		alert("Insira seu email.");
@@ -88,12 +94,14 @@ function login() {
 		"&senha="+senha;
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitao com o servidor
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
+			//toma a ação correta dependendo da resposta do servidor
 			switch(string) {
 				case 'err_email':
 					alert("Email incorreto. Possui cadastro?");

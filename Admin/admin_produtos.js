@@ -51,10 +51,12 @@ function adicionar_produto() {
 
 	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);
+	//abre a solicitacao ao servidor
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			//alerta a resposta do servidor ao usuário
 			let string=xmlhttp.responseText;
 			alert(string);
 		}
@@ -82,7 +84,7 @@ function lista_apagar() {
 	xmlhttp.send();
 	
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
 			obj=JSON.parse(string);
 			
@@ -124,16 +126,17 @@ function apagar_produto(id) {
 		}
 	}
 	
-	//apaga o produto selecionado (ou entrado pelo user)
 	let solicitacao="http://localhost:8080/apaga_prod?"+
 	"id="+id;
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			//exibe a resposta do servidor e refaz a lista
 			let string=xmlhttp.responseText;
 			alert(string);
 			lista_apagar();
@@ -142,6 +145,7 @@ function apagar_produto(id) {
 }
 
 function atualizarProd() {
+	//atualiza dados de produto
 	let id=document.getElementById("id").value;
 	let nome=document.getElementById("nome").value;
 	let descricao=document.getElementById("descricao").value;
@@ -174,11 +178,13 @@ function atualizarProd() {
 		"&vendidos="+vendidos;
 		
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao ao servidor
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
 		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			//exibe a resposta do servidor
 			let string=xmlhttp.responseText;
 			alert(string);
 			document.getElementById("form_prod").reset();
@@ -203,11 +209,13 @@ function relatorio_produtos() {
 	let solicitacao="http://localhost:8080/list_prod";
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 	
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		//ao receber a resposta, usa o objeto retornado
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
 			let string=xmlhttp.responseText;
 			obj=JSON.parse(string);
 			

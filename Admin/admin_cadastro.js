@@ -1,4 +1,23 @@
-﻿function cadastrar_admin() {
+﻿//usuario logado fica escrito na tela
+let logado = localStorage.getItem("atualLogado");
+let spanLogado = document.createElement("span");
+let texto = document.createTextNode("Usuário: " +logado);
+spanLogado.appendChild(texto);
+spanLogado.setAttribute("id", "usuario_logado");
+
+let element = document.getElementById("logo");
+element.appendChild(spanLogado);
+
+let buttonLogout = document.createElement("button");
+buttonLogout.appendChild(document.createTextNode("Logout"));
+buttonLogout.setAttribute("id","buttonLogout");
+buttonLogout.setAttribute("value","Logout");
+buttonLogout.setAttribute("onclick","logout()");
+
+element.appendChild(buttonLogout);
+//----------------------------------------------------------
+function cadastrar_admin() {
+	//faz o cadastro de administradores
 	let nome=document.getElementById("nome_admin").value;
 	if(nome=="") {
 		alert("Insira seu nome.");
@@ -27,11 +46,13 @@
 		"&tipo=admin";
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			//alerta o usuario em caso de sucesso
 			let string=xmlhttp.responseText;
 			alert(string);
 		}
@@ -43,7 +64,8 @@
 
 
 function cadastrar_user() {
-let nome=document.getElementById("nome_user").value;
+	//faz o cadastro de usuarios
+	let nome=document.getElementById("nome_user").value;
 	if(nome=="") {
 		alert("Insira seu nome.");
 		return;
@@ -95,11 +117,13 @@ let nome=document.getElementById("nome_user").value;
 		"&tipo=user";
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+			//alerta em caso de sucesso
 			let string=xmlhttp.responseText;
 			alert(string);
 		}

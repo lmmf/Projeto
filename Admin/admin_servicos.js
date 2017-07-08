@@ -1,3 +1,21 @@
+//usuario logado fica escrito na tela
+let logado = localStorage.getItem("atualLogado");
+let spanLogado = document.createElement("span");
+let texto = document.createTextNode("Usuário: " +logado);
+spanLogado.appendChild(texto);
+spanLogado.setAttribute("id", "usuario_logado");
+
+let element = document.getElementById("logo");
+element.appendChild(spanLogado);
+
+let buttonLogout = document.createElement("button");
+buttonLogout.appendChild(document.createTextNode("Logout"));
+buttonLogout.setAttribute("id","buttonLogout");
+buttonLogout.setAttribute("value","Logout");
+buttonLogout.setAttribute("onclick","logout()");
+
+element.appendChild(buttonLogout);
+//----------------------------------------------------------
 let indexedDB = window.indexedDB || 
 				window.mozIndexedDB || 
 				window.webkitIndexedDB || 
@@ -96,13 +114,6 @@ function consultar_servico() {
 
 
 function adicionar_servico() {
-	//verifica se o indexedDB está disponível
-	if(!window.indexedDB) {
-		console.log("Seu navegador não suporta indexedDB.");
-		return;
-	}
-
-
 	let nome=document.getElementById("nome_servico").value;
 	let id=document.getElementById("id_servico").value;
 	let foto="Servico/error.jpg"
@@ -122,10 +133,12 @@ function adicionar_servico() {
 	"&preco="+preco;
 
 	let xmlhttp=new XMLHttpRequest();
+	//abre a solicitacao ao servidor
 	xmlhttp.open("GET", solicitacao, true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange=()=> {
+		//ao receber a resposta, exibe ao usuário
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			let string=xmlhttp.responseText;
 			alert(string);

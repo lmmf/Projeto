@@ -27,7 +27,6 @@ function pagar() {
 	produtos_comprados=JSON.stringify(produtos_comprados);
 	
 	let solicitacao="http://localhost:8080/pagamento?prods="+produtos_comprados;
-	console.log(solicitacao);
 
 	let xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET", solicitacao, true);

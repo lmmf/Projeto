@@ -1,0 +1,13 @@
+{
+  "name": "projeto-web",
+  "version": "1.0.0",
+  "description": "projeto de pet shop",
+  "dependencies": {
+    "express": "^4.15.3",
+    "fs": "0.0.1-security",
+    "nano": "^6.4.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
