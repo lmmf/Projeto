@@ -8,7 +8,6 @@ Para executar o projeto basta utilizar os comandos:
 -npm install
 -npm start
 
-
 Reports:
 -A parte que envolve serviços não esta funcionando.
 -Subir imagens pelo servidor não está funcionando.
